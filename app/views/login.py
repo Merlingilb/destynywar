@@ -16,7 +16,7 @@ def load_user(id):
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=str(form.username.data)).first()
+        user = User.from_username(str(form.username.data))
         if user and user.validate(form.password.data):
             login_user(user)
             flash("Logged in successfully.")

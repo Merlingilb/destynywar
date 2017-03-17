@@ -1,5 +1,7 @@
+from passlib.hash import pbkdf2_sha256
+from sqlalchemy.exc import IntegrityError
+
 from app import db
-from flask import g
 from app.models.holomail import Holomail
 from app.models.alliance import Alliance, alliance_association_table
 from passlib.hash import pbkdf2_sha256
@@ -14,7 +16,8 @@ class User(db.Model):
 
     alliance_owner = db.relationship("Alliance", backref="owner", lazy="dynamic", foreign_keys="Alliance.owner_id")
     mails_sent = db.relationship("Holomail", backref="sender", lazy="dynamic", foreign_keys="Holomail.sender_id")
-    mails_received = db.relationship("Holomail", backref="receiver", lazy="dynamic", foreign_keys="Holomail.receiver_id")
+    mails_received = db.relationship("Holomail", backref="receiver", lazy="dynamic",
+                                     foreign_keys="Holomail.receiver_id")
 
     def __init__(self, username, email, password):
         self.username = username
@@ -52,3 +55,17 @@ class User(db.Model):
             if not mail.read:
                 return False
         return True
+
+    @staticmethod
+    def from_username(username):
+        return User.query.filter_by(username=username).first()
+
+    @staticmethod
+    def create_user(username, email, password):
+        try:
+            user = User(username, email, password)
+            db.session.add(user)
+            db.session.commit()
+            return True
+        except IntegrityError:
+            return False
