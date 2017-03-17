@@ -24,9 +24,7 @@
 
     <footer>
         {% if g.user.is_authenticated %}
-            {% if g.user.wants_chat %}
-                {% include "chat.html" %}
-            {% endif %}
+            {% include "chat.html" %}
         {% endif %}
     </footer>
 </html>

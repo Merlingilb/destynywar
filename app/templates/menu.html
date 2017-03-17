@@ -17,6 +17,9 @@
 				<a href="{{ url_for("logout") }}">Logout</a>
 			</div>
 			<div class="inline">
+				<a href="{{ url_for("chat") }}">Chat</a>
+			</div>
+			<div class="inline">
 				<a href="{{ url_for("holopost") }}" style="text-decoration: none">
 					{% if g.user.all_mails_read() %}
 						<img class="mailimage" src="{{ url_for("static", filename="images/HolomailGelesen.png") }}">
