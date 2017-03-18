@@ -4,25 +4,29 @@ from flask import render_template, g, abort, flash, redirect, url_for, request
 from flask_login import login_required
 from app.models.user import User
 
-#def background_thread():
-#    """Example of how to send server generated events to clients."""
-#    count = 0
-#    while True:
-#        socketio.sleep(10)
-#        count += 1
-#        socketio.emit('my_response',
-#                      {'data': 'Server generated event', 'count': count},
-#                      namespace='/test')
-
-@socketio.on('ClientBroadcast', namespace='/test')
+@socketio.on('ClientBroadcast', namespace='/chat')
 def test_message(message):
     emit('ServerResponse', {'data': message['data'], 'user': message['user'], 'date': message['date']}, broadcast=True)
 
-@socketio.on('connect', namespace='/test')
-def test_connect():
-    emit('ServerResponse', {'data': 'Connected', 'user': "Server"})
+@socketio.on('RoomBroadcast', namespace='/chat')
+def test_message(message):
+    emit('ServerResponse', {'data': message['data'], 'user': message['user'], 'date': message['date'], 'raum': message['room']}, room=message['room'], broadcast=True)
 
-@socketio.on('disconnect', namespace='/test')
+@socketio.on('join', namespace='/chat')
+def join(message):
+    join_room(message['room'])
+    emit('ServerResponse', {'data': 'In rooms: ' + ', '.join(rooms()), 'user': "Server", 'date': message['date']})
+
+@socketio.on('leave', namespace='/chat')
+def leave(message):
+    leave_room(message['room'])
+    emit('ServerResponse', {'data': 'In rooms: ' + ', '.join(rooms()), 'user': "Server", 'date': ""})
+
+@socketio.on('connect', namespace='/chat')
+def test_connect():
+    emit('ServerResponse', {'data': 'Connected', 'user': "Server", 'date': ""})
+
+@socketio.on('disconnect', namespace='/chat')
 def test_disconnect():
     print('Client disconnected')
 
