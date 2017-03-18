@@ -16,7 +16,7 @@ from app.models.user import User
 
 @socketio.on('ClientBroadcast', namespace='/test')
 def test_message(message):
-    emit('ServerResponse', {'data': message['data'], 'user': message['user']}, broadcast=True)
+    emit('ServerResponse', {'data': message['data'], 'user': message['user'], 'date': message['date']}, broadcast=True)
 
 @socketio.on('connect', namespace='/test')
 def test_connect():
