@@ -48,7 +48,7 @@
                             chatroom="main";
                             sessionStorage.setItem("chatroom", chatroom);
                         }
-                        var socket = io.connect('http://' + document.domain + ':' + "5001" + '/chat');
+                        var socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
                         socket.emit('join', {
                             room: chatroom,
                             user: '{{ g.user.username }}',

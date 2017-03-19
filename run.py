@@ -1,5 +1,5 @@
 #!/bin/python3
 
-from app import app
+from app import app, socketio
 
-app.run(port=5000, debug=True)
+socketio.run(app, debug=True)

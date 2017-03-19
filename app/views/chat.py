@@ -1,5 +1,5 @@
 from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
-from app import appChat, db, socketio, app
+from app import db, socketio, app
 from flask import render_template, g, abort, flash, redirect, url_for, request
 from flask_login import login_required
 from app.models.user import User

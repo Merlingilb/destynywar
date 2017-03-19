@@ -19,6 +19,6 @@ lm.login_view = "login"
 
 appChat = Flask(__name__)
 appChat.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(appChat)
+socketio = SocketIO(app)
 
 from app import views, models
