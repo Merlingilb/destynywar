@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block header %}
+    <section class="header">
+        <h1>Einladung annehmen.</h1>
+    </section>
+{% endblock %}
+{% block content %}
+    <section class="border">
+		<div class="div">
+			<div>
+				<div class="fith-left">
+                    Name:
+				</div>
+				<div class="fith-right {{ "hidden" if alliance.name==null }}">
+					{{ alliance.name if alliance.name!=null else "1234" }}
+				</div>
+			</div>
+			<div>
+				<div class="fith-left">
+                    Beschreibung:
+				</div>
+			</div>
+			<div class="div">
+                {{ alliance.description }}
+			</div>
+			<div>
+				<div class="fith-left">
+                    Mitglieder:
+				</div>
+				<div class="fith-right">
+					{% for member in alliance.members %}
+                        {{ member.username }}
+                    {% endfor %}
+				</div>
+			</div>
+            {% if allowed %}
+		        {% include "form.html" %}
+            {% else %}
+                <div class="div">
+                    Du musst erst aus deiner Allianz austreten, bevor du eine Einladung annehmen darfst.
+                </div>
+            {% endif %}
+		</div>
+	</section>
+{% endblock %}

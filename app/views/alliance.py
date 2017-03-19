@@ -4,16 +4,32 @@ from app.models.alliance import Alliance
 from app.models.user import User
 from flask_login import login_required
 from app.forms.allianceform import AllianceForm
-from app.forms.allianceinviteform import AllianceInviteForm
+from app.forms.allianceinviteform import AllianceInviteForm, AllianceInviteAcceptForm
 
 
 @app.route("/alliance")
 @login_required
 def alliance():
     alliances = Alliance.query.filter_by(id=g.user.alliance_id).all()
-    if alliances==None:
-        alliances=None
-    return render_template("alliance.html", title="Alliance", alliances=alliances)
+    invites = Alliance.query.join(Alliance.invites).filter_by(id=g.user.id).all()
+    return render_template("alliance.html", title="Alliance", alliances=alliances, invites=invites)
+
+@app.route("/alliance/accept/<int:id>", methods=["GET", "POST"])
+@login_required
+def alliance_accept(id):
+    my_alliance = Alliance.query.filter_by(id=g.user.alliance_id).first()
+    alliance = Alliance.query.filter_by(id=id).first()
+    form = AllianceInviteAcceptForm()
+    allowed=True
+    if my_alliance:
+        allowed=False
+    if form.validate_on_submit():
+        alliance.members.append(g.user)
+        alliance.invites.remove(g.user)
+        db.session.commit()
+        flash("Allianz eingeladen!")
+        return redirect(url_for("alliance"))
+    return render_template("alliance_accept.html", title="accept Alliance", alliance=alliance, allowed=allowed, form=form)
 
 @app.route("/alliance/view/<int:id>")
 @login_required
@@ -32,7 +48,7 @@ def alliance_invite(id):
     if alliance:
         form=AllianceInviteForm()
         if form.validate_on_submit():
-            alliance.members.append(User.query.filter_by(username=form.username.data).first())
+            alliance.invites.append(User.query.filter_by(username=form.username.data).first())
             db.session.commit()
             flash("Allianz eingeladen!")
             return redirect(url_for("alliance"))

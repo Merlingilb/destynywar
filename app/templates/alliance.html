@@ -6,7 +6,7 @@
     </section>
 {% endblock %}
 {% block content %}
-    {% if alliances==None %}
+    {% if not alliances %}
         <section class="border">
             <div class="div">
                 Du bist in noch keiner Allianz. <a href="{{ url_for("alliance_new") }}">Allianz erstellen.</a>
@@ -30,5 +30,24 @@
                     {% endfor %}
                 </table>
             </div>
+        </section>
     {% endif %}
+    <section class="border">
+        <div class="div">
+            <table class="linktable" border="0" cellpadding="5" cellspacing="5">
+                <tr>
+                    <td>
+                        Allianzname
+                    </td>
+                </tr>
+                {% for alliance in invites %}
+                    <tr onclick="window.document.location='{{ url_for("alliance_accept", id=alliance.id) }}'">
+                        <td>
+                            {{ alliance.name }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </section>
 {% endblock %}
