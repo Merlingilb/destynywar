@@ -1,25 +1,41 @@
 var chatroom;
+function hide(){
+    document.getElementById("log").style.display="none";
+    document.getElementById("clear").style.display="none";
+    document.getElementById("change_room").style.display="none";
+    document.getElementById("roomdiv").style.display="none";
+    document.getElementById("broadcast").style.display="none";
+}
+function show(){
+    document.getElementById("log").style.display="inline";
+    document.getElementById("clear").style.display="inline";
+    document.getElementById("change_room").style.display="inline";
+    document.getElementById("roomdiv").style.display="inline";
+    document.getElementById("broadcast").style.display="inline";
+}
+function roomhide(){
+    document.getElementById("changeroom").style.display="none";
+}
+function roomshow(){
+    document.getElementById("changeroom").style.display="inline";
+}
+function minimize(){
+    sessionStorage.setItem('chatmin', '1');
+    hide();
+}
+function maximize(){
+    sessionStorage.setItem('chatmin', '0');
+    show();
+}
+function clear_history(){
+    sessionStorage.setItem('chatlog', '');
+    document.getElementById("log").innerHTML='';
+}
+function change_room_show(){
+    sessionStorage.setItem('viewchangeroom', '0');
+    roomshow();
+}
 $(document).ready(function(){
-    function hide(){
-        $('#log').hide();
-        $('#clear').hide();
-        $('#change_room').hide();
-        $('#roomdiv').hide();
-        $('#broadcast').hide();
-    }
-    function show(){
-        $('#log').show();
-        $('#clear').show();
-        $('#change_room').show();
-        $('#roomdiv').show();
-        $('#broadcast').show();
-    }
-    function roomhide(){
-        $('#changeroom').hide();
-    }
-    function roomshow(){
-        $('#changeroom').show();
-    }
     var chatmin = sessionStorage.getItem("chatmin");
     if (chatmin=='null') sessionStorage.setItem("chatmin", 0);
     if (chatmin=='1') {
@@ -29,7 +45,7 @@ $(document).ready(function(){
         show();
     }
     var viewchangeroom = sessionStorage.getItem("viewchangeroom");
-    if (viewchangeroom=='null') {
+    if (viewchangeroom=='null' || viewchangeroom=='' || viewchangeroom==null) {
         sessionStorage.setItem("viewchangeroom", 1);
         roomhide();
     }
@@ -66,6 +82,7 @@ $(document).ready(function(){
                 date: new Date().toLocaleString('de-DE'),
                 room: chatroom
             });
+            document.getElementById("broadcast").reset();
             return false;
         }
     );
@@ -82,30 +99,6 @@ $(document).ready(function(){
             roomhide();
             window.location.reload();
             return false;
-        }
-    );
-    $('form#clear').submit(
-        function(){
-            sessionStorage.setItem('chatlog', '');
-            $('#log').html('');
-        }
-    );
-    $('form#change_room').submit(
-        function(){
-            sessionStorage.setItem('viewchangeroom', '0');
-            roomshow();
-        }
-    );
-    $('form#minimize').submit(
-        function(){
-            sessionStorage.setItem('chatmin', '1');
-            hide();
-        }
-    );
-    $('form#maximize').submit(
-        function(){
-            sessionStorage.setItem('chatmin', '0');
-            show();
         }
     );
 });

@@ -30,7 +30,7 @@ def test_connect():
 def test_disconnect():
     print('Client disconnected')
 
-@app.route("/chat")
+@app.route("/chat", methods=["GET", "POST"])
 @login_required
 def chat():
     user = User.query.filter_by(id=g.user.id).first()

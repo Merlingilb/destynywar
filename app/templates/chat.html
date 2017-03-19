@@ -19,26 +19,18 @@
                     }
                 </script>
                 <div class="toolbox">
-                    <form id="clear" method="GET" action='#' class="toolbutton">
-                        <input type="image" name="clear" src="/static/images/clear.png" border="0" alt="a" />
-                    </form>
-                    <form id="change_room" method="GET" action='#' class="toolbutton">
-                        <input type="image" name="change_room" src="/static/images/change_room.png" border="0" alt="a" />
-                    </form>
-                    <form id="maximize" method="GET" action='#' class="toolbutton">
-                        <input type="image" name="maximize" src="/static/images/maximize.png" border="0" alt="a" />
-                    </form>
-                    <form id="minimize" method="GET" action='#' class="toolbutton">
-                        <input type="image" name="minimize" src="/static/images/minimize.png" border="0" alt="a" />
-                    </form>
+                    <input id="clear" type="image" name="clear" src="/static/images/clear.png" border="0" alt="a" onclick="clear_history()"/>
+                    <input id="change_room" type="image" name="change_room" src="/static/images/change_room.png" border="0" alt="a" onclick="change_room_show()"/>
+                    <input id="maximize" type="image" name="maximize" src="/static/images/maximize.png" border="0" alt="a" onclick="maximize()"/>
+                    <input id="minimize" type="image" name="minimize" src="/static/images/minimize.png" border="0" alt="a" onclick="minimize()"/>
                 </div>
-                <form id="changeroom" method="POST" action='#'>
+                <form id="changeroom" method="POST">
                     <input type="text" name="changeroom_data" id="changeroom_data" placeholder="Raumname">
-                    <input type="submit" value="Wechseln">
+                    <input type="submit" value="Wechseln"><br>
                 </form>
-                <div id="roomdiv">Raum: </div>
-                <div class="messages" id="log"></div>
-                <form id="broadcast" method="POST" action='#'>
+                <div id="roomdiv">Raum: </div><br>
+                <div class="messages" id="log"></div><br>
+                <form id="broadcast" method="POST">
                     <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Nachricht">
                     <input type="submit" value="Senden">
                 </form>
