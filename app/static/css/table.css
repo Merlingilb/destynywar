@@ -1,20 +1,20 @@
-.mailTable tr:not(:first-child):hover{
+.linktable tr:not(:first-child):hover{
     background-color: #005000;
 }
 
-.mailTable tr{
+.linktable tr{
     border: 2px solid grey;
 }
 
-.mailTable{
+.linktable{
     border-collapse: collapse;
 	width:100%;
 }
 
-.mailTable tr:first-child{
+.linktable tr:first-child{
     border: none;
 }
 
-.mailTable tr:first-child > td{
+.linktable tr:first-child > td{
     padding-bottom: 20px;
 }

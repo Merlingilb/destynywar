@@ -1,29 +1,11 @@
 {% extends "base.html" %}
 {% block header %}
-	<link href="{{ url_for("static", filename="css/holomail.css") }}" rel="stylesheet">
     <section class="header">
         <h1>Allianz</h1>
     </section>
 {% endblock %}
 {% block content %}
 	<section class="border">
-		<div class="div">
-            <form method="post" name="alliance_invite">
-                {{ form.hidden_tag() }}
-				<div>
-					<div class="fith-left {{ "error" if form.username.errors }}">
-						Benutzername:
-					</div>
-					<div class="fith-right">
-						{{ form.username(size=20) }}
-					</div>
-				</div>
-				<div class="fith-right">
-					<div class="without-left">
-						{{ form.submit }}
-					</div>
-				</div>
-			</form>
-		</div>
+		{% include "form.html" %}
 	</section>
 {% endblock %}

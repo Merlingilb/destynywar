@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block header %}
-	<link href="{{ url_for("static", filename="css/holomail.css") }}" rel="stylesheet">
     <section class="header">
         <h1>Allianz</h1>
     </section>
@@ -14,14 +13,6 @@
 				</div>
 				<div class="fith-right {{ "hidden" if alliance.name==null }}">
 					{{ alliance.name if alliance.name!=null else "1234" }}
-				</div>
-			</div>
-			<div>
-				<div class="fith-left">
-                    Gründer:
-				</div>
-				<div class="fith-right {{ "hidden" if alliance.owner.username==null }}">
-					{{ alliance.owner.username if alliance.owner.username!=null else "1234" }}
 				</div>
 			</div>
 			<div>

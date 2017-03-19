@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block header %}
-	<link href="{{ url_for("static", filename="css/holomail.css") }}" rel="stylesheet">
+	<link href="{{ url_for("static", filename="css/table.css") }}" rel="stylesheet">
     <section class="header">
         <h1>Allianz</h1>
     </section>
@@ -15,22 +15,16 @@
     {% else %}
         <section class="border">
             <div class="div">
-                <table class="mailtable" border="0" cellpadding="5" cellspacing="5">
+                <table class="linktable" border="0" cellpadding="5" cellspacing="5">
                     <tr>
                         <td>
                             Allianzname
-                        </td>
-                        <td>
-                            Gründer
                         </td>
                     </tr>
                     {% for alliance in alliances %}
                         <tr onclick="window.document.location='{{ url_for("alliance_detail", id=alliance.id) }}'">
                             <td>
                                 {{ alliance.name }}
-                            </td>
-                            <td>
-                                {{ alliance.owner.username }}
                             </td>
                         </tr>
                     {% endfor %}

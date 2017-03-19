@@ -13,7 +13,7 @@ def validate_user(form, field):
 
 class AllianceInviteForm(FlaskForm):
 
-    username = StringField("Username", validators=[DataRequired(), validate_user])
+    username = StringField("Benutzername", validators=[DataRequired(), validate_user])
     submit = SubmitField("Einladen")
 
     def __init__(self, *args, **kwargs):

@@ -29,7 +29,7 @@ def alliance_detail(id):
 @login_required
 def alliance_invite(id):
     alliance = Alliance.query.filter_by(id=id).first()
-    if alliance and alliance.owner_id==g.user.id:
+    if alliance:
         form=AllianceInviteForm()
         if form.validate_on_submit():
             alliance.members.append(User.query.filter_by(username=form.username.data).first())
@@ -46,7 +46,7 @@ def alliance_new():
     if not Alliance.query.filter_by(id=g.user.alliance_id).first():
         form=AllianceForm()
         if form.validate_on_submit():
-            alliance = Alliance(owner_id=g.user.id, name=form.name.data, description=form.description.data)
+            alliance = Alliance(name=form.name.data, description=form.description.data)
             alliance.members.append(g.user)
             db.session.add(alliance)
             db.session.commit()

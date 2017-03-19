@@ -7,7 +7,6 @@ alliance_association_table = db.Table('alliance_association', db.Model.metadata,
 
 class Alliance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    owner_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     name = db.Column(db.String(256))
     description = db.Column(db.String(4096))
 
