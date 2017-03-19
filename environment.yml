@@ -18,6 +18,7 @@ dependencies:
   - flask-login==0.4.0
   - flask-markdown==0.3
   - flask-pagedown==0.2.2
+  - flask-socketio
   - flask-sqlalchemy==2.2
   - flask-wtf==0.14.2
   - markdown==2.6.8
