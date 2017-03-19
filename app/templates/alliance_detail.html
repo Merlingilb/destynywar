@@ -52,7 +52,12 @@
 				</div>
 			</div>
 			<div class="div">
-                <a href="{{ url_for("alliance_invite", id=alliance.id) }}">Allianz&nbspeinladen</a>&nbsp&nbsp
+                {% if g.user.alliance_rank.allowed_to_invite %}
+                    <a href="{{ url_for("alliance_invite", id=alliance.id) }}">Allianz&nbspeinladen</a>&nbsp&nbsp
+                {% endif %}
+                {% if g.user.alliance_rank.allowed_to_change_name_and_desc %}
+                    <a href="{{ url_for("alliance_edit", id=alliance.id) }}">Allianz&nbspbearbeiten</a>&nbsp&nbsp
+                {% endif %}
                 <a href="{{ url_for("alliance_leave", id=alliance.id) }}">aus&nbspAllianz&nbspaustreten</a>
 			</div>
 		</div>

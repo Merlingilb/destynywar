@@ -12,3 +12,13 @@ class AllianceForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         FlaskForm.__init__(self, *args, **kwargs)
 
+
+class AllianceEditForm(FlaskForm):
+
+    name = StringField("Name", validators=[DataRequired()])
+    description = PageDownField("Beschreibung")
+    submit = SubmitField("Ändern")
+
+    def __init__(self, *args, **kwargs):
+        FlaskForm.__init__(self, *args, **kwargs)
+

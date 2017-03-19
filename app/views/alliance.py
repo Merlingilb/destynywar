@@ -4,7 +4,7 @@ from app.models.alliance import Alliance
 from app.models.user import User
 from app.models.rank import Rank
 from flask_login import login_required
-from app.forms.allianceform import AllianceForm
+from app.forms.allianceform import AllianceForm, AllianceEditForm
 from app.forms.allianceinviteform import AllianceInviteForm, AllianceInviteAcceptForm
 
 
@@ -14,6 +14,24 @@ def alliance():
     alliances = Alliance.query.filter_by(id=g.user.alliance_id).all()
     invites = Alliance.query.join(Alliance.invites).filter_by(id=g.user.id).all()
     return render_template("alliance.html", title="Alliance", alliances=alliances, invites=invites)
+
+@app.route("/alliance/edit/<int:id>", methods=["GET", "POST"])
+@login_required
+def alliance_edit(id):
+    if g.user.alliance_rank.allowed_to_change_name_and_desc:
+        alliance = Alliance.query.filter_by(id=id).first()
+        form = AllianceEditForm()
+        if not form.name.data:
+            form.name.data=alliance.name
+            form.description.data=alliance.description
+        if form.validate_on_submit():
+            alliance.name=form.name.data
+            alliance.description=form.description.data
+            db.session.commit()
+            return redirect(url_for("alliance"))
+        return render_template("alliance_edit.html", title="edit Alliance", alliance=alliance, form=form)
+    else:
+        abort(403)
 
 @app.route("/alliance/leave")
 @login_required
