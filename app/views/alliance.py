@@ -10,7 +10,7 @@ from app.forms.allianceinviteform import AllianceInviteForm
 @app.route("/alliance")
 @login_required
 def alliance():
-    alliances = Alliance.query.join(Alliance.members).filter_by(id=g.user.id).all()
+    alliances = Alliance.query.filter_by(id=g.user.alliance_id).all()
     if alliances==None:
         alliances=None
     return render_template("alliance.html", title="Alliance", alliances=alliances)
@@ -19,7 +19,7 @@ def alliance():
 @login_required
 def alliance_detail(id):
     alliance = Alliance.query.filter_by(id=id).first()
-    members = User.query.join(User.alliance_member).filter_by(id=alliance.id).all()
+    members = User.query.filter_by(alliance_id=alliance.id).all()
     for i in members:
         if i.id==g.user.id and alliance:
             return render_template("alliance_detail.html", title="view alliance", alliance=alliance)
@@ -34,7 +34,7 @@ def alliance_invite(id):
         if form.validate_on_submit():
             alliance.members.append(User.query.filter_by(username=form.username.data).first())
             db.session.commit()
-            flash("Alliance eingeladen!")
+            flash("Allianz eingeladen!")
             return redirect(url_for("alliance"))
         return render_template("alliance_invite.html", title="Alliance einladen", alliance=alliance, form=form)
     else:
@@ -43,12 +43,15 @@ def alliance_invite(id):
 @app.route("/alliance_new", methods=["GET", "POST"])
 @login_required
 def alliance_new():
-    form=AllianceForm()
-    if form.validate_on_submit():
-        alliance = Alliance(owner_id=g.user.id, name=form.name.data, description=form.description.data)
-        alliance.members.append(g.user)
-        db.session.add(alliance)
-        db.session.commit()
-        flash("Allianz erstellt!")
-        return redirect(url_for("alliance"))
-    return render_template("alliance_new.html", title="Allianz erstellen", form=form)
+    if not Alliance.query.filter_by(id=g.user.alliance_id).first():
+        form=AllianceForm()
+        if form.validate_on_submit():
+            alliance = Alliance(owner_id=g.user.id, name=form.name.data, description=form.description.data)
+            alliance.members.append(g.user)
+            db.session.add(alliance)
+            db.session.commit()
+            flash("Allianz erstellt!")
+            return redirect(url_for("alliance"))
+        return render_template("alliance_new.html", title="Allianz erstellen", form=form)
+    else:
+        return abort(403)
