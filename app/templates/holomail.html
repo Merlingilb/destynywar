@@ -23,19 +23,29 @@
 			<table class="mailtable" border="0" cellpadding="5" cellspacing="5">
 				<tr>
 					<td>
-						Sender
+						Sender&nbsp&nbsp
+                        <input type="image" name="clear" src="/static/images/up.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="sender", direction="a") }}'"/>
+                        <input type="image" name="clear" src="/static/images/down.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="sender", direction="d") }}'"/>
 					</td>
 					<td>
-						Empfänger
+						Empfänger&nbsp&nbsp
+                        <input type="image" name="clear" src="/static/images/up.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="receiver", direction="a") }}'"/>
+                        <input type="image" name="clear" src="/static/images/down.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="receiver", direction="d") }}'"/>
 					</td>
 					<td>
-						Betreff
+						Betreff&nbsp&nbsp
+                        <input type="image" name="clear" src="/static/images/up.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="subject", direction="a") }}'"/>
+                        <input type="image" name="clear" src="/static/images/down.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="subject", direction="d") }}'"/>
 					</td>
 					<td class="text-right">
-						Zeit
+						Zeit&nbsp&nbsp
+                        <input type="image" name="clear" src="/static/images/up.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="time", direction="a") }}'"/>
+                        <input type="image" name="clear" src="/static/images/down.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="time", direction="d") }}'"/>
 					</td>
 					<td class="text-right">
-						Gelesen
+						Gelesen&nbsp&nbsp
+                        <input type="image" name="clear" src="/static/images/up.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="read", direction="a") }}'"/>
+                        <input type="image" name="clear" src="/static/images/down.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="read", direction="d") }}'"/>
 					</td>
 				</tr>
 				{% for mail in mails.items %}

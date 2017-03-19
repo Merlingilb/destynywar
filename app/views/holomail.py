@@ -8,18 +8,60 @@ from app.forms.mailform import MailForm
 
 
 @app.route("/holopost")
-@app.route("/holopost/<int:page>")
+@app.route("/holopost/<int:page><string:order><string:direction>")
 @login_required
-def holopost(page=1):
-    mails = Holomail.query.filter(Holomail.receiver == g.user, Holomail.deleted_receiver == False).order_by(Holomail.timestamp.desc()).paginate(page, 10, False)
+def holopost(page=1,order='time',direction='d'):
+    if direction=="d":
+        if order=="sender":
+            mails = Holomail.query.filter(Holomail.receiver == g.user, Holomail.deleted_receiver == False).order_by(Holomail.sender.username.desc()).paginate(page, 10, False)
+        if order=="receiver":
+            mails = Holomail.query.filter(Holomail.receiver == g.user, Holomail.deleted_receiver == False).order_by(Holomail.receiver.username.desc()).paginate(page, 10, False)
+        if order=="subject":
+            mails = Holomail.query.filter(Holomail.receiver == g.user, Holomail.deleted_receiver == False).order_by(Holomail.subject.desc()).paginate(page, 10, False)
+        if order=="time":
+            mails = Holomail.query.filter(Holomail.receiver == g.user, Holomail.deleted_receiver == False).order_by(Holomail.timestamp.desc()).paginate(page, 10, False)
+        if order=="read":
+            mails = Holomail.query.filter(Holomail.receiver == g.user, Holomail.deleted_receiver == False).order_by(Holomail.read.desc()).paginate(page, 10, False)
+    if direction=="a":
+        if order=="sender":
+            mails = Holomail.query.filter(Holomail.receiver == g.user, Holomail.deleted_receiver == False).order_by(Holomail.sender.username.asc()).paginate(page, 10, False)
+        if order=="receiver":
+            mails = Holomail.query.filter(Holomail.receiver == g.user, Holomail.deleted_receiver == False).order_by(Holomail.receiver.username.asc()).paginate(page, 10, False)
+        if order=="subject":
+            mails = Holomail.query.filter(Holomail.receiver == g.user, Holomail.deleted_receiver == False).order_by(Holomail.subject.asc()).paginate(page, 10, False)
+        if order=="time":
+            mails = Holomail.query.filter(Holomail.receiver == g.user, Holomail.deleted_receiver == False).order_by(Holomail.timestamp.asc()).paginate(page, 10, False)
+        if order=="read":
+            mails = Holomail.query.filter(Holomail.receiver == g.user, Holomail.deleted_receiver == False).order_by(Holomail.read.asc()).paginate(page, 10, False)
     return render_template("holomail.html", title="Holopost", mails=mails)
 
 @app.route("/holopost/out")
-@app.route("/holopost/out/<int:page>")
+@app.route("/holopost/out/<int:page><string:order><string:direction>")
 @login_required
-def holopost_sent(page=1):
-    mails = Holomail.query.filter(Holomail.sender == g.user, Holomail.deleted_sender == False).order_by(Holomail.timestamp.desc()).paginate(page, 10, False)
-    return render_template("holomail_sent.html", title="Holopost", mails=mails)
+def holopost_sent(page=1,order='time',direction='d'):
+    if direction=="d":
+        if order=="sender":
+            mails = Holomail.query.filter(Holomail.sender == g.user, Holomail.deleted_sender == False).order_by(Holomail.sender.username.desc()).paginate(page, 10, False)
+        if order=="receiver":
+            mails = Holomail.query.filter(Holomail.sender == g.user, Holomail.deleted_sender == False).order_by(Holomail.receiver.username.desc()).paginate(page, 10, False)
+        if order=="subject":
+            mails = Holomail.query.filter(Holomail.sender == g.user, Holomail.deleted_sender == False).order_by(Holomail.subject.desc()).paginate(page, 10, False)
+        if order=="time":
+            mails = Holomail.query.filter(Holomail.sender == g.user, Holomail.deleted_sender == False).order_by(Holomail.timestamp.desc()).paginate(page, 10, False)
+        if order=="read":
+            mails = Holomail.query.filter(Holomail.sender == g.user, Holomail.deleted_sender == False).order_by(Holomail.read.desc()).paginate(page, 10, False)
+    if direction=="a":
+        if order=="sender":
+            mails = Holomail.query.filter(Holomail.sender == g.user, Holomail.deleted_sender == False).order_by(Holomail.sender.username.asc()).paginate(page, 10, False)
+        if order=="receiver":
+            mails = Holomail.query.filter(Holomail.sender == g.user, Holomail.deleted_sender == False).order_by(Holomail.receiver.username.asc()).paginate(page, 10, False)
+        if order=="subject":
+            mails = Holomail.query.filter(Holomail.sender == g.user, Holomail.deleted_sender == False).order_by(Holomail.subject.asc()).paginate(page, 10, False)
+        if order=="time":
+            mails = Holomail.query.filter(Holomail.sender == g.user, Holomail.deleted_sender == False).order_by(Holomail.timestamp.asc()).paginate(page, 10, False)
+        if order=="read":
+            mails = Holomail.query.filter(Holomail.sender == g.user, Holomail.deleted_sender == False).order_by(Holomail.read.asc()).paginate(page, 10, False)
+    return render_template("holomail_sent.html", title="Holopost sent", mails=mails)
 
 
 @app.route("/holopost/view/<int:id>")
