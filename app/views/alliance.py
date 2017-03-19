@@ -14,6 +14,15 @@ def alliance():
     invites = Alliance.query.join(Alliance.invites).filter_by(id=g.user.id).all()
     return render_template("alliance.html", title="Alliance", alliances=alliances, invites=invites)
 
+@app.route("/alliance/leave")
+@login_required
+def alliance_leave():
+    alliance = Alliance.query.filter_by(id=g.user.alliance_id).first()
+    alliance.members.remove(g.user)
+    db.session.commit()
+    flash("aus Allianz ausgetreten!")
+    return redirect(url_for("alliance"))
+
 @app.route("/alliance/accept/<int:id>", methods=["GET", "POST"])
 @login_required
 def alliance_accept(id):
