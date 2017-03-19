@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block header %}
+	<link href="{{ url_for("static", filename="css/table.css") }}" rel="stylesheet">
     <section class="header">
         <h1>Allianz</h1>
     </section>
@@ -28,9 +29,26 @@
                     Mitglieder:
 				</div>
 				<div class="fith-right">
-					{% for member in alliance.members %}
-                        {{ member.username }}
-                    {% endfor %}
+                    <table class="normaltable" border="0" cellpadding="5" cellspacing="5">
+                        <tr>
+                            <td>
+                                Benutzername
+                            </td>
+                            <td>
+                                Rang
+                            </td>
+                        </tr>
+                        {% for member in alliance.members %}
+                            <tr>
+                                <td>
+                                    {{ member.username }}
+                                </td>
+                                <td>
+                                    {{ member.alliance_rank.name }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
 				</div>
 			</div>
 			<div class="div">

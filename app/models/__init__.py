@@ -3,4 +3,5 @@ from app.models.user import User
 from app.models.globalvars import Globalvars
 from app.models.planet import Planet
 from app.models.holomail import Holomail
+from app.models.rank import Rank
 from app.models.alliance import Alliance, alliance_association_table

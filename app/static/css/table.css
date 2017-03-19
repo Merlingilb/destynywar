@@ -18,3 +18,23 @@
 .linktable tr:first-child > td{
     padding-bottom: 20px;
 }
+
+.normaltable tr{
+    border: 2px solid grey;
+}
+
+.normaltable{
+    border-collapse: collapse;
+}
+
+.normaltable td{
+    padding-right: 20px;
+}
+
+.normaltable tr:first-child{
+    border: none;
+}
+
+.normaltable tr:first-child > td{
+    padding-bottom: 20px;
+}

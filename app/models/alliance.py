@@ -12,6 +12,7 @@ class Alliance(db.Model):
 
     members = db.relationship("User", backref="alliance", lazy='dynamic', foreign_keys="User.alliance_id")
     invites = db.relationship("User", back_populates="invites", lazy='dynamic', secondary=alliance_association_table)
+    ranks = db.relationship("Rank", backref="alliance", lazy='dynamic', foreign_keys="Rank.alliance_id")
 
     def __repr__(self):
         return "<Alliance {}>".format(self.name)
