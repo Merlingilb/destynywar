@@ -9,51 +9,53 @@
 	<section>
 		<div class="div text-center">
 			<a href="{{ url_for("holopost_write") }}">Holopost schreiben</a>&nbsp;&nbsp;
-			<a href="{{ url_for("holopost_sent") }}">Postausgang</a>&nbsp;&nbsp;
-			<a href="{{ url_for("holopost") }}">Posteingang</a>
+			<a href="{{ url_for("holopost") }}">Holopost</a>
 		</div>
 	</section>
 	<section class="border">
-		<div class="div">
-			<div>
-				<div class="fith-left">
-                    Absender:
-				</div>
-				<div class="fith-right {{ "hidden" if mail.sender.username==null }}">
-					{{ mail.sender.username if mail.sender.username!=null else "1234" }}
-				</div>
-			</div>
-			<div>
-				<div class="fith-left">
-                    Empfänger:
-				</div>
-				<div class="fith-right {{ "hidden" if mail.receiver.username==null }}">
-					{{ mail.receiver.username if mail.receiver.username!=null else "1234" }}
-				</div>
-			</div>
-			<div>
-				<div class="fith-left">
-                    Datum:
-				</div>
-				<div class="fith-right {{ "hidden" if mail.timestamp==null }}">
-					{{ mail.timestamp.strftime("%H:%M %d.%m.%y") if mail.timestamp!=null else "1234" }}
-				</div>
-			</div>
-			<div>
-				<div class="fith-left">
-                    Betreff:
-				</div>
-				<div class="fith-right {{ "hidden" if mail.subject==null }}">
-					{{ mail.subject if mail.subject!=null else "1234" }}
-				</div>
-			</div>
-			<div class="div">
-          {{ mail.body|markdown }}
-			</div>
-			<div class="div">
-				<a href="{{ url_for("holopost_write", receiver=mail.sender.username) }}">Antworten</a>
-        <a href="{{ url_for("holopost_delete", id=mail.id) }}">Löschen</a>
-			</div>
-		</div>
+        <div class="div">
+            <a href="{% if g.user==course.receiver %}{{ url_for("holopost_write", receiver=course.sender.username) }}{% else %}{{ url_for("holopost_write", receiver=course.receiver.username) }}{% endif %}">Antworten</a>
+            <a href="{{ url_for("holopost_delete", id=course.id) }}">Löschen</a>
+        </div>
+        {% for mail in mails %}
+            <hr>
+            <div class="div">
+                <div>
+                    <div class="fith-left">
+                        <h8>Absender:</h8>
+                    </div>
+                    <div class="fith-right {{ "hidden" if mail.sender.username==null }}">
+                        <h8>{{ mail.sender.username if mail.sender.username!=null else "1234" }}</h8>
+                    </div>
+                </div>
+                <div>
+                    <div class="fith-left">
+                        <h8>Empfänger:</h8>
+                    </div>
+                    <div class="fith-right {{ "hidden" if mail.receiver.username==null }}">
+                        <h8>{{ mail.receiver.username if mail.receiver.username!=null else "1234" }}</h8>
+                    </div>
+                </div>
+                <div>
+                    <div class="fith-left">
+                        <h8>Datum:</h8>
+                    </div>
+                    <div class="fith-right {{ "hidden" if mail.timestamp==null }}">
+                        <h8>{{ mail.timestamp.strftime("%H:%M %d.%m.%y") if mail.timestamp!=null else "1234" }}</h8>
+                    </div>
+                </div>
+                <div>
+                    <div class="fith-left">
+                        <h8>Betreff:</h8>
+                    </div>
+                    <div class="fith-right {{ "hidden" if mail.subject==null }}">
+                        <h8><b>{{ mail.subject if mail.subject!=null else "1234" }}</b></h8>
+                    </div>
+                </div>
+                <div class="div">
+                    {{ mail.body|markdown }}
+                </div>
+            </div>
+        {% endfor %}
 	</section>
 {% endblock %}

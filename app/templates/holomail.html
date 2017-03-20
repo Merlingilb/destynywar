@@ -2,15 +2,14 @@
 {% block header %}
 	<link href="{{ url_for("static", filename="css/holomail.css") }}" rel="stylesheet">
 	<section class="header">
-		<h1>Holoposteingang</h1>
+		<h1>Holopost</h1>
 	</section>
 {% endblock %}
 {% block content %}
 	<section>
 		<div class="div text-center">
 			<a href="{{ url_for("holopost_write") }}">Holopost schreiben</a>&nbsp;&nbsp;
-			<a href="{{ url_for("holopost_sent") }}">Postausgang</a>&nbsp;&nbsp;
-			<a href="{{ url_for("holopost") }}">Posteingang</a>
+			<a href="{{ url_for("holopost") }}">Holopost</a>
 		</div>
 	</section>
 	<section class="border">
@@ -32,11 +31,6 @@
                         <input type="image" name="clear" src="/static/images/up.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="receiver", direction="a") }}'"/>
                         <input type="image" name="clear" src="/static/images/down.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="receiver", direction="d") }}'"/>
 					</td>
-					<td>
-						Betreff&nbsp&nbsp
-                        <input type="image" name="clear" src="/static/images/up.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="subject", direction="a") }}'"/>
-                        <input type="image" name="clear" src="/static/images/down.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="subject", direction="d") }}'"/>
-					</td>
 					<td class="text-right">
 						Zeit&nbsp&nbsp
                         <input type="image" name="clear" src="/static/images/up.png" border="0" alt="a" onclick="window.document.location='{{ url_for("holopost", page=1, order="time", direction="a") }}'"/>
@@ -56,14 +50,11 @@
 						<td>
 							{{ mail.receiver.username }}
 						</td>
-						<td>
-							{{ mail.subject }}
-						</td>
 						<td class="text-right">
 							{{ mail.timestamp.strftime("%H:%M %d.%m.%y") }}
 						</td>
 						<td class="text-right">
-							{% if mail.read %}
+							{% if (g.user==mail.sender and mail.read_sender) or (g.user==mail.receiver and mail.read_receiver) %}
 								<img class="mailimage" src="{{ url_for("static", filename="images/HolomailGelesen.png") }}">
 							{% else %}
 								<img class="mailimage" src="{{ url_for("static", filename="images/HolomailNeu.png") }}">
