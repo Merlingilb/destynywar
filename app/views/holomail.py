@@ -15,18 +15,18 @@ from sqlalchemy import or_, and_
 def holopost(page=1,order='time',direction='d'):
     if direction=="d":
         if order=="sender":
-            mails = Holomailcourse.query.filter(or_(and_(Holomailcourse.receiver == g.user, Holomailcourse.deleted_receiver == False),and_(Holomailcourse.sender == g.user, Holomailcourse.deleted_sender == False))).order_by(Holomailcourse.sender.username.desc()).paginate(page, 10, False)
+            mails = Holomailcourse.query.filter(or_(and_(Holomailcourse.receiver == g.user, Holomailcourse.deleted_receiver == False),and_(Holomailcourse.sender == g.user, Holomailcourse.deleted_sender == False))).join(User, Holomailcourse.sender).order_by(User.username.desc()).paginate(page, 10, False)
         elif order=="receiver":
-            mails = Holomailcourse.query.filter(or_(and_(Holomailcourse.receiver == g.user, Holomailcourse.deleted_receiver == False),and_(Holomailcourse.sender == g.user, Holomailcourse.deleted_sender == False))).order_by(Holomailcourse.receiver.username.desc()).paginate(page, 10, False)
+            mails = Holomailcourse.query.filter(or_(and_(Holomailcourse.receiver == g.user, Holomailcourse.deleted_receiver == False),and_(Holomailcourse.sender == g.user, Holomailcourse.deleted_sender == False))).join(User, Holomailcourse.receiver).order_by(User.username.desc()).paginate(page, 10, False)
         elif order=="time":
             mails = Holomailcourse.query.filter(or_(and_(Holomailcourse.receiver == g.user, Holomailcourse.deleted_receiver == False),and_(Holomailcourse.sender == g.user, Holomailcourse.deleted_sender == False))).order_by(Holomailcourse.timestamp.desc()).paginate(page, 10, False)
         elif order=="read":
             mails = Holomailcourse.query.filter(or_(and_(Holomailcourse.receiver == g.user, Holomailcourse.deleted_receiver == False),and_(Holomailcourse.sender == g.user, Holomailcourse.deleted_sender == False))).order_by(Holomailcourse.read_receiver.desc(),Holomailcourse.read_sender.desc()).paginate(page, 10, False)
     elif direction=="a":
         if order=="sender":
-            mails = Holomailcourse.query.filter(or_(and_(Holomailcourse.receiver == g.user, Holomailcourse.deleted_receiver == False),and_(Holomailcourse.sender == g.user, Holomailcourse.deleted_sender == False))).order_by(Holomailcourse.sender.username.asc()).paginate(page, 10, False)
+            mails = Holomailcourse.query.filter(or_(and_(Holomailcourse.receiver == g.user, Holomailcourse.deleted_receiver == False),and_(Holomailcourse.sender == g.user, Holomailcourse.deleted_sender == False))).join(User, Holomailcourse.sender).order_by(User.username.asc()).paginate(page, 10, False)
         elif order=="receiver":
-            mails = Holomailcourse.query.filter(or_(and_(Holomailcourse.receiver == g.user, Holomailcourse.deleted_receiver == False),and_(Holomailcourse.sender == g.user, Holomailcourse.deleted_sender == False))).order_by(Holomailcourse.receiver.username.asc()).paginate(page, 10, False)
+            mails = Holomailcourse.query.filter(or_(and_(Holomailcourse.receiver == g.user, Holomailcourse.deleted_receiver == False),and_(Holomailcourse.sender == g.user, Holomailcourse.deleted_sender == False))).join(User, Holomailcourse.receiver).order_by(User.username.asc()).paginate(page, 10, False)
         elif order=="time":
             mails = Holomailcourse.query.filter(or_(and_(Holomailcourse.receiver == g.user, Holomailcourse.deleted_receiver == False),and_(Holomailcourse.sender == g.user, Holomailcourse.deleted_sender == False))).order_by(Holomailcourse.timestamp.asc()).paginate(page, 10, False)
         elif order=="read":
